@@ -5,8 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 
+
 namespace Assignment_Part1
 {
+    // Delegate declaration
+    delegate void notifyDelegate(double i, double grossE);
+
     internal class BudgetPlanner
     {
         // The variables used to hold the users input while using the application
@@ -14,10 +18,8 @@ namespace Assignment_Part1
         private double houseCost { get; set; } = 0;
         private double grossIncome { get; set; } = 0;
 
-        // Generic-Collection 'List' for storing expenses
-        private List<double> expenses = new List<double>();
-        // Gen-Coll for storing expense names
-        private List<string> expenseLabels = new List<string>();
+        // Use of generic collection Dictionary to store expense names as key with expense as value
+        private IDictionary<string, double> expenseValues = new Dictionary<string, double>();
 
         // Instancing of necessary classes to access their methods
         HomeLoan loan = new HomeLoan();
@@ -30,20 +32,15 @@ namespace Assignment_Part1
         {
             // Capture standard income/expense data from user
             monthlyIncome = util.GetDouble("Please enter gross monthly income before tax >> ");
-            expenses.Add(expense.CaptureExpense("Please enter monthly tax deductions >> "));
-            expenseLabels.Add("Tax");
+            expenseValues.Add("Tax", expense.CaptureExpense("Enter monthly tax deductions >> "));
 
             Console.WriteLine("Please enter the monthly expenses for the following catagories:");
-            expenses.Add(expense.CaptureExpense("Groceries >> "));
-            expenseLabels.Add("Groceries");
-            expenses.Add(expense.CaptureExpense("Water and Lights >> "));
-            expenseLabels.Add("Water and Lights");
-            expenses.Add(expense.CaptureExpense("Travel costs (including petrol) >> "));
-            expenseLabels.Add("Travel Costs");
-            expenses.Add(expense.CaptureExpense("Cellphone and Telephone >> "));
-            expenseLabels.Add("Cell/Telephone");
-            expenses.Add(expense.CaptureExpense("Other expenses >> "));
-            expenseLabels.Add("Other");
+
+            expenseValues.Add("Groceries", expense.CaptureExpense("Groceries >> "));
+            expenseValues.Add("Water and Lights", expense.CaptureExpense("Water and Lights >> "));
+            expenseValues.Add("Travel Costs", expense.CaptureExpense("Travel costs (including petrol) >> "));
+            expenseValues.Add("Cell/Telephone", expense.CaptureExpense("Cellphone and Telephone >> "));
+            expenseValues.Add("Other", expense.CaptureExpense("Other expenses >> "));
 
             // Ask user if they are renting or buying a house
             string choice = "none";
@@ -75,9 +72,8 @@ namespace Assignment_Part1
                 }
             }
 
-            // Append the monthly expense for living space to expenses
-            expenses.Add(houseCost);
-            expenseLabels.Add("Home Cost (monthly)");
+            // Append the monthly expense for living space
+            expenseValues.Add("Home Cost", houseCost);
 
             string vehicleChoice = "none";
             bool answerGiven = false;
@@ -96,19 +92,18 @@ namespace Assignment_Part1
             if (vehicleChoice == "y")
             {
                 double vehicleCost = vehicleLoan.CaptureExpense("Enter details for vehicle financing:");
-                expenses.Add(vehicleCost);
-                expenseLabels.Add("Vehicle Cost (monthly)");
+                expenseValues.Add("Vehicle Cost", vehicleCost);
             }
 
             
 
             // Calculate the gross income for the user
-            grossIncome = CalculateGrossIncome(monthlyIncome, expenses);
+            grossIncome = CalculateGrossIncome(monthlyIncome, expenseValues.Values.ToList());
 
         }
 
         // Displays all necessary data with some color flare
-        public void DisplayData()
+        public void DisplayData(notifyDelegate notifyDelegate)
         {
             Console.WriteLine("--------------------------------------------------");
             // Display the income and gross income in green
@@ -124,12 +119,16 @@ namespace Assignment_Part1
             Console.WriteLine("Income after expenses: {0}", grossIncome.ToString("F"));
             Console.ForegroundColor = ConsoleColor.White;
 
+            // Notify user when expense > 75% income via a delegate
+            notifyDelegate(monthlyIncome, grossIncome);
 
+            // Display expenses in descending order
             Console.WriteLine("\nExpenses in descending order:");
-            expenses = expenses.OrderByDescending(x => x).ToList();
-            for(int i = 0; i < expenses.Count; i++)
+            var sortedValues = from entry in expenseValues orderby entry.Value descending select entry;
+            expenseValues = sortedValues.ToDictionary(x => x.Key, x => x.Value);
+            for (int i = 0; i < expenseValues.Count; i++)
             {
-                Console.WriteLine("{0, -30} {1}", expenseLabels[i], expenses[i]);
+                Console.WriteLine("{0, -30} {1}", expenseValues.ElementAt(i).Key, expenseValues.ElementAt(i).Value);
             }
 
 

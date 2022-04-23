@@ -10,6 +10,15 @@ namespace Assignment_Part1
     // Where the application begins and ends
     internal class Program
     {
+
+        // Function to be called through delegate
+        static private void notify(double i, double grossE) { 
+            if((grossE - i) > (i * 0.75))
+            {
+                Console.WriteLine("Your expenses exceeds 75% of your income.");
+            }
+        }
+
         static void Main(string[] args)
         {
             // Create instance of BudgetPlanner class
@@ -22,7 +31,7 @@ namespace Assignment_Part1
             planner.GetData();
             
             // DisplayData method does as it is named, displays necessary data
-            planner.DisplayData();
+            planner.DisplayData(notify);
 
             // Hold the application until a key is pressed by the user, then close.
             Console.ForegroundColor = ConsoleColor.DarkGray;

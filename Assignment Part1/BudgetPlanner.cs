@@ -105,10 +105,10 @@ namespace Assignment_Part1
         // Displays all necessary data with some color flare
         public void DisplayData(notifyDelegate notifyDelegate)
         {
-            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine("==================================================\n");
             // Display the income and gross income in green
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Monthly income: {0}", monthlyIncome);
+            Console.WriteLine("Monthly income: {0}", monthlyIncome.ToString("F"));
 
             // Change gross income text color to red if below zero
             if (grossIncome < 0)
@@ -124,15 +124,16 @@ namespace Assignment_Part1
 
             // Display expenses in descending order
             Console.WriteLine("\nExpenses in descending order:");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             var sortedValues = from entry in expenseValues orderby entry.Value descending select entry;
             expenseValues = sortedValues.ToDictionary(x => x.Key, x => x.Value);
             for (int i = 0; i < expenseValues.Count; i++)
             {
-                Console.WriteLine("{0, -30} {1}", expenseValues.ElementAt(i).Key, expenseValues.ElementAt(i).Value);
+                Console.WriteLine("{0, -30} {1}", expenseValues.ElementAt(i).Key, expenseValues.ElementAt(i).Value.ToString("F"));
             }
+            Console.ForegroundColor = ConsoleColor.White;
 
-
-            Console.WriteLine("--------------------------------------------------");
+            Console.WriteLine("\n==================================================");
         }
 
         // Method for calculating the gross income from all necessary data

@@ -12,10 +12,12 @@ namespace Assignment_Part1
     {
 
         // Function to be called through delegate
-        static private void notify(double i, double grossE) { 
-            if((grossE - i) > (i * 0.75))
+        static private void notify(double i, double grossE) {
+            if((i-grossE) > (i * 0.75))
             {
-                Console.WriteLine("Your expenses exceeds 75% of your income.");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("\n!!! Expenses exceed 75% of income !!!");
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 

@@ -36,5 +36,12 @@ namespace Assignment_Part1
             } while (!double.TryParse(tempString, NumberStyles.Any, CultureInfo.InvariantCulture, out tempDouble));
             return tempDouble;
         }
+
+        public string GetString(string s)
+        {
+            Console.Write(s);
+            string outputS = Console.ReadLine();
+            return outputS;
+        }
     }
 }

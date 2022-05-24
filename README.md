@@ -3,6 +3,7 @@ A budget management console-application.
 
 ## Requirements
 .NetFramework v4.7.2
+
 Windows environment
 
 ## Compiling

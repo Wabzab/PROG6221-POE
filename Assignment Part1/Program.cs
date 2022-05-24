@@ -11,7 +11,7 @@ namespace Assignment_Part1
     internal class Program
     {
 
-        // Function to be called through delegate
+        // Function to be called via delegate
         static private void notify(double i, double grossE) {
             if((i-grossE) > (i * 0.75))
             {

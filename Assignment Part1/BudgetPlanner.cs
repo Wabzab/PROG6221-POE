@@ -27,7 +27,7 @@ namespace Assignment_Part1
         GenericExpense expense = new GenericExpense();
         PurchaseVehicle vehicleLoan = new PurchaseVehicle();
 
-        // Method to gather all necessary user input
+        // Method for gathering all necessary user input
         public void GetData()
         {
             // Capture standard income/expense data from user
@@ -69,6 +69,9 @@ namespace Assignment_Part1
                 if ((monthlyIncome / houseCost) < 3.0)
                 {
                     Console.WriteLine("Approval of the home loan is unlikely, income is not sufficient.");
+                } else
+                {
+                    Console.WriteLine("Approval of the home load in likely.");
                 }
             }
 

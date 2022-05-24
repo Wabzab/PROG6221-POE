@@ -1,9 +1,16 @@
-Assignment Part 2
-Max Paterson-Jones
+# PROG POE Assignment Part 2
+A budget management console-application.
 
-Requires .NetFramework v4.7.2
-Made 2022 April 22
+## Requirements
+.NetFramework v4.7.2
+Windows environment
 
-Compiling the application is done by loading the solution into visual studio and running the application.
+## Compiling
+Load the project folder into your IDE of choice and compile with "Program.cs" as the main file.
 
-Part two of three of the POE and as per instructions this is a continuation of the standalone commandline application from part one. There have been a few new features added in this version of the program, such as an option to buy a car and a warning in the report when expenses exceed a certain threshhold of the income that is handled via a delegate. The handling of the expense data is now managed by a dictionary, a generic collection, that stores the expense name as the key and the expense as the value.
+## Usage
+The application asks for the user to input their income and then various expenses.
+The user has an option for providing the payment details for renting or buying a living space.
+The user also has an option for buying a vehicle and providing the details for that.
+
+The system will notify the user if their expenses exceed a 75% of their income, and then display them in descending order.
